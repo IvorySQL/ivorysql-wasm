@@ -25,6 +25,8 @@ chown -R 100:101 rootfs/var/lib/pgsql
 # Make the folder executable for pg_ctl
 chmod 700 rootfs/var/lib/pgsql
 
+# musl install locale files
+cp -rf /root/buildroot-2022.08/locales/* rootfs/
 # Create a new archive
 tar -cf filesystem.tar rootfs/*
 
