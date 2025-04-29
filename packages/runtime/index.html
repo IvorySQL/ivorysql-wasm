@@ -11,7 +11,8 @@
     window.onload = () => {
       const baseOptions = {
         wasm_path: "./lib/v86.wasm",
-        memory_size: 128 * 1024 * 1024,
+        memory_size: 512 * 1024 * 1024,
+        vga_memory_size: 8 * 1024 * 1024,
         filesystem: {
           basefs: "filesystem/filesystem.json",
           baseurl: "filesystem/",
@@ -34,7 +35,7 @@
         document.getElementById("terminal").style = "";
       }
 
-      const bzimageUrl = "./filesystem/27d6e559.bin";
+      const bzimageUrl = "./filesystem/eba5118c.bin";
       const options = {
         ...baseOptions,
         ...(boot
@@ -56,7 +57,7 @@
           : { initial_state: { url: "./state/v86state.bin.zst" } }),
       };
 
-      var emulator = new V86Starter(options);
+      var emulator = new V86(options);
 
       function initTerm() {
         const fitAddon = new FitAddon.FitAddon();

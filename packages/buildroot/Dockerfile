@@ -48,5 +48,7 @@ WORKDIR /root/buildroot-${BUILD_ROOT_RELEASE}
 COPY config /config
 
 RUN cp -r /config/* /config/.config .
-
+#oreo add 
+RUN cp /config/postgresql.mk package/postgresql/postgresql.mk
+RUN cp /config/postgresql.hash package/postgresql/postgresql.hash
 ENTRYPOINT ["bash"]
