@@ -16,6 +16,10 @@ mv bzImage rootfs
 # Remove .gitkeep files, they are only needed to save empty folders in the repository
 find rootfs -type f -iname '\.gitkeep' -delete
 
+# musl install locale files
+chmod 777 -R /root/buildroot-2022.08/locales/*
+cp -rf /root/buildroot-2022.08/locales/* /build/rootfs/
+
 # Change ownership to a non root user (the value doesn't matter as long as it's not root)
 chown -R 1000:1000 rootfs
 
@@ -25,8 +29,7 @@ chown -R 100:101 rootfs/var/lib/pgsql
 # Make the folder executable for pg_ctl
 chmod 700 rootfs/var/lib/pgsql
 
-# musl install locale files
-cp -rf /root/buildroot-2022.08/locales/* rootfs/
+
 # Create a new archive
 tar -cf filesystem.tar rootfs/*
 

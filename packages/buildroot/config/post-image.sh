@@ -16,6 +16,10 @@ cd /build
 # Remove .gitkeep files, they are only needed to save empty folders in the repository
 find rootfs -type f -iname '\.gitkeep' -delete
 
+# musl install locale files
+chmod 777 -R /root/buildroot-2022.08/locales/*
+cp -rf /root/buildroot-2022.08/locales/* /build/rootfs/
+
 # Change ownership to a non root user (the value doesn't matter as long as it's not root)
 chown -R 1000:1000 rootfs
 
