@@ -1,2 +1,0 @@
-#!/bin/sh
-export MUSL_LOCPATH="/build/rootfs/share/i18n/locales/musl"

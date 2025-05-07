@@ -1,2 +1,0 @@
-#!/bin/sh
-export MUSL_LOCPATH="/home/highgo/work/repo/musl-locales/install_tmp/share/i18n/locales/musl"

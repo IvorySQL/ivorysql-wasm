@@ -48,7 +48,8 @@ WORKDIR /root/buildroot-${BUILD_ROOT_RELEASE}
 COPY config /config
 
 RUN cp -r /config/* /config/.config .
-#oreo add 
-RUN cp /config/postgresql.mk package/postgresql/postgresql.mk
-RUN cp /config/postgresql.hash package/postgresql/postgresql.hash
+#oreo add for ivorysql4.4
+RUN cp /config/board/pg-browser/IvorySQL/4.4/postgresql.mk package/postgresql/postgresql.mk
+RUN cp /config/board/pg-browser/IvorySQL/4.4/postgresql.hash package/postgresql/postgresql.hash
+RUN cp /config/board/pg-browser/IvorySQL/4.4/0001-ivorysql-meson-build.patch package/postgresql/0001-ivorysql-meson-build.patch
 ENTRYPOINT ["bash"]
