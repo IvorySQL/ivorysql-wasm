@@ -11,7 +11,7 @@
     window.onload = () => {
       const baseOptions = {
         wasm_path: "./lib/v86.wasm",
-        memory_size: 512 * 1024 * 1024,
+        memory_size: 256 * 1024 * 1024,
         vga_memory_size: 8 * 1024 * 1024,
         filesystem: {
           basefs: "filesystem/filesystem.json",
@@ -35,7 +35,7 @@
         document.getElementById("terminal").style = "";
       }
 
-      const bzimageUrl = "./filesystem/45685e1a.bin";
+      const bzimageUrl = "./filesystem/242caa0d.bin";
       const options = {
         ...baseOptions,
         ...(boot
