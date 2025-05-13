@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 
 <head>
-  <title>Postgres in browser</title>
-  <link rel="stylesheet" href="https://unpkg.com/xterm@4.19.0/css/xterm.css" />
+  <title>IvorySQL in browser</title>
+  <link rel="stylesheet" href="https://unpkg.com/xterm@5.2.1/css/xterm.css" />
   <link rel="stylesheet" href="./styles.css" />
-  <script src="https://unpkg.com/xterm-addon-fit@0.5.0/lib/xterm-addon-fit.js"></script>
-  <script src="https://unpkg.com/xterm@4.19.0/lib/xterm.js"></script>
+  <script src="https://unpkg.com/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.js"></script>
+  <script src="https://unpkg.com/xterm@5.2.1/lib/xterm.js"></script>
   <script src="./lib/libv86.js"></script>
   <script>
     window.onload = () => {
       const baseOptions = {
         wasm_path: "./lib/v86.wasm",
-        memory_size: 256 * 1024 * 1024,
-        vga_memory_size: 8 * 1024 * 1024,
+        memory_size: 128 * 1024 * 1024,
+        vga_memory_size: 2 * 1024 * 1024,
         filesystem: {
           basefs: "filesystem/filesystem.json",
           baseurl: "filesystem/",
         },
         screen_container: document.getElementById("screen_container"),
         serial_container_xtermjs: document.getElementById("terminal"),
-        network_relay_url: "wss://relay.widgetry.org/",
+        // network_relay_url: "wss://relay.widgetry.org/",
         autostart: true,
         disable_keyboard: true,
         disable_mouse: true,
@@ -50,9 +50,9 @@
               bios: {
                 url: "./bios/seabios.bin",
               },
-              vga_bios: {
-                url: "./bios/vgabios.bin",
-              },
+              // vga_bios: {
+              //   url: "./bios/vgabios.bin",
+              // },
             }
           : { initial_state: { url: "./state/v86state.bin.zst" } }),
       };

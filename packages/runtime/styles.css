@@ -76,7 +76,7 @@ input[type="button"] {
   width: calc(100% + 2px);
   height: calc(100% + 2px);
   z-index: -1;
-  animation: steam 120s linear infinite;
+  /* animation: steam 120s linear infinite; */
 }
 
 .xterm .xterm-viewport {
