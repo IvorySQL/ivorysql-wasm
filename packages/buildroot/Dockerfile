@@ -50,5 +50,5 @@ COPY config /config
 
 RUN cp -r /config/* /config/.config .
 #oreo add for ivorysql version
-RUN cp /config/board/pg-browser/IvorySQL/${BUILD_ROOT_IVORYSQL_VERSION}/* package/postgresql/*
+RUN cp -r /config/board/pg-browser/IvorySQL/${BUILD_ROOT_IVORYSQL_VERSION}/* package/postgresql
 ENTRYPOINT ["bash"]
