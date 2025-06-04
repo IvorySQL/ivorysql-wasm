@@ -1,0 +1,66 @@
+diff --git a/contrib/ivorysql_ora/meson.build b/contrib/ivorysql_ora/meson.build
+index e453845fe5..92894d6c43 100644
+--- a/contrib/ivorysql_ora/meson.build
++++ b/contrib/ivorysql_ora/meson.build
+@@ -24,6 +24,7 @@ ivorysql_ora_sources = files(
+   'src/builtin_functions/misc_functions.c',
+   'src/merge/ora_merge.c',
+   'src/sysview/sysview_functions.c',
++  'src/xml_functions/ora_xml_functions.c',
+ )
+ 
+ if host_system == 'windows'
+diff --git a/meson.build b/meson.build
+index 26cbe5575e..01c2bcd492 100644
+--- a/meson.build
++++ b/meson.build
+@@ -150,6 +150,10 @@ cdata.set_quoted('PG_MAJORVERSION', pg_version_major.to_string())
+ cdata.set('PG_MAJORVERSION_NUM', pg_version_major)
+ cdata.set('PG_MINORVERSION_NUM', pg_version_minor)
+ cdata.set('PG_VERSION_NUM', pg_version_num)
++
++# IvorySQL version
++cdata.set('PACKAGE_IVORYSQL_VERSION', '4.5')
++
+ # PG_VERSION_STR is built later, it depends on compiler test results
+ cdata.set_quoted('CONFIGURE_ARGS', '')
+ 
+@@ -475,7 +479,7 @@ pkg = 'postgresql'
+ 
+ dir_prefix = get_option('prefix')
+ 
+-dir_prefix_contains_pg = (dir_prefix.contains('pgsql') or dir_prefix.contains('postgres'))
++dir_prefix_contains_pg = (dir_prefix.contains('pgsql') or dir_prefix.contains('postgres') or dir_prefix.contains('IvorySQL'))
+ 
+ dir_bin = get_option('bindir')
+ 
+@@ -2813,9 +2817,9 @@ cdata.set_quoted('DLSUFFIX', dlsuffix)
+ 
+ # built later than the rest of the version metadata, we need SIZEOF_VOID_P
+ cdata.set_quoted('PG_VERSION_STR',
+-  'PostgreSQL @0@ on @1@-@2@, compiled by @3@-@4@, @5@-bit'.format(
++  'PostgreSQL @0@ (IvorySQL @6@) on @1@-@2@, compiled by @3@-@4@, @5@-bit'.format(
+     pg_version, host_machine.cpu_family(), host_system,
+-    cc.get_id(), cc.version(), cdata.get('SIZEOF_VOID_P') * 8,
++    cc.get_id(), cc.version(), cdata.get('SIZEOF_VOID_P') * 8, cdata.get('PACKAGE_IVORYSQL_VERSION')
+   )
+ )
+ 
+diff --git a/src/fe_utils/meson.build b/src/fe_utils/meson.build
+index 34a748668e..489ad0951f 100644
+--- a/src/fe_utils/meson.build
++++ b/src/fe_utils/meson.build
+@@ -38,11 +38,12 @@ psqlscan = custom_target('psqlscan',
+ )
+ generated_sources += psqlscan
+ fe_utils_sources += psqlscan
++ora_inc = include_directories('.')
+ 
+ fe_utils = static_library('libpgfeutils',
+   fe_utils_sources + generated_headers,
+   c_pch: pch_postgres_fe_h,
+-  include_directories: [postgres_inc, libpq_inc],
++  include_directories: [postgres_inc, libpq_inc, ora_inc],
+   c_args: host_system == 'windows' ? ['-DFD_SETSIZE=1024'] : [],
+   dependencies: frontend_common_code,
+   kwargs: default_lib_args,
