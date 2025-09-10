@@ -6,7 +6,7 @@ ARG BUILD_ROOT_RELEASE=2022.08
 # Root password for SSH
 ARG ROOT_PASSWORD=browser-vm
 #oreo add for ivorysql version
-ARG BUILD_ROOT_IVORYSQL_VERSION=4.5
+ARG BUILD_ROOT_IVORYSQL_VERSION=4.6
 # Setup SSH (for Windows users) and prepare apt-get
 RUN echo 'root:${ROOT_PASSWORD}' | chpasswd; \
     # Install all Buildroot deps
