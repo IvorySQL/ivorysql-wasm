@@ -6,7 +6,8 @@ ARG BUILD_ROOT_RELEASE=2022.08
 # Root password for SSH
 ARG ROOT_PASSWORD=browser-vm
 #oreo add for ivorysql version
-ARG BUILD_ROOT_IVORYSQL_VERSION=4.6
+ARG IVORYSQL_VERSION 
+RUN echo "Building IvorySQL ${IVORYSQL_VERSION}"
 # Setup SSH (for Windows users) and prepare apt-get
 RUN echo 'root:${ROOT_PASSWORD}' | chpasswd; \
     # Install all Buildroot deps
@@ -30,6 +31,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -q -y install \
     libc6:i386 \
     libncurses5-dev \
     libssl-dev \
+    vim \
     rsync; \
     wget -c http://buildroot.org/downloads/buildroot-${BUILD_ROOT_RELEASE}.tar.gz; \
     tar axf buildroot-${BUILD_ROOT_RELEASE}.tar.gz;
@@ -50,5 +52,5 @@ COPY config /config
 
 RUN cp -r /config/* /config/.config .
 #oreo add for ivorysql version
-RUN cp -r /config/board/pg-browser/IvorySQL/${BUILD_ROOT_IVORYSQL_VERSION}/* package/postgresql
+RUN cp -r /config/board/pg-browser/IvorySQL/${IVORYSQL_VERSION}/* package/postgresql
 ENTRYPOINT ["bash"]
