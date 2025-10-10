@@ -35,7 +35,7 @@
         document.getElementById("terminal").style = "";
       }
 
-      const bzimageUrl = "./filesystem/de720320.bin";
+      const bzimageUrl = "./filesystem/1e029de8.bin";
       const options = {
         ...baseOptions,
         ...(boot
@@ -181,11 +181,35 @@
         <input id="upload_files" type="file" multiple hidden />
         <p>Upload files to the emulator</p>
       </div>
+      <input id="home_button" type="button" value="Home" />
+      <input id="help_button" type="button" value="Help" />
     </div>
   </div>
+  
+  <div style="text-align: center; margin: 30px; font-size: 24px; color: #f5f1f1;">
+    Welcome to IvorySQL v{{version}}  online trial
+  </div>
+  
   <div class="container">
     <div class="xterminal">
       <div id="terminal"></div>
     </div>
   </div>
+
+  <div style="text-align: center; margin: 50px; font-size: 12px; color: #888;">
+    Any comments please contact <a href="mailto:support@ivorysql.org"style="color: #d8d5d5;">support@ivorysql.org</a> 
+    Copyright © 2025 IvorySQL
+  </div>
+
+  <script>
+    const version = "5.0"; 
+    document.body.innerHTML = document.body.innerHTML.replace("{{version}}", version);
+    document.getElementById("help_button").onclick = function() {
+      window.open("https://docs.ivorysql.org/", "_blank");
+    };
+
+    document.getElementById("home_button").onclick = function() {
+      window.open("https://www.ivorysql.org/", "_blank");
+    };
+  </script>
 </body>
