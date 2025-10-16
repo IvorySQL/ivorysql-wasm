@@ -1,0 +1,68 @@
+diff --git a/contrib/ivorysql_ora/meson.build b/contrib/ivorysql_ora/meson.build
+index 19c6669eff6..4422aabe313 100644
+--- a/contrib/ivorysql_ora/meson.build
++++ b/contrib/ivorysql_ora/meson.build
+@@ -25,6 +25,7 @@ ivorysql_ora_sources = files(
+   'src/builtin_functions/misc_functions.c',
+   'src/merge/ora_merge.c',
+   'src/sysview/sysview_functions.c',
++  'src/xml_functions/ora_xml_functions.c',
+ )
+ 
+ if host_system == 'windows'
+diff --git a/meson.build b/meson.build
+index db5265e4910..538871dc1cd 100644
+--- a/meson.build
++++ b/meson.build
+@@ -154,6 +154,9 @@ cdata.set('PG_VERSION_NUM', pg_version_num)
+ # PG_VERSION_STR is built later, it depends on compiler test results
+ cdata.set_quoted('CONFIGURE_ARGS', '')
+ 
++# IvorySQL version
++cdata.set('PACKAGE_IVORYSQL_VERSION', '4.6')
++
+ 
+ 
+ ###############################################################
+@@ -476,7 +479,7 @@ pkg = 'postgresql'
+ 
+ dir_prefix = get_option('prefix')
+ 
+-dir_prefix_contains_pg = (dir_prefix.contains('pgsql') or dir_prefix.contains('postgres'))
++dir_prefix_contains_pg = (dir_prefix.contains('pgsql') or dir_prefix.contains('postgres') or dir_prefix.contains('IvorySQL'))
+ 
+ dir_bin = get_option('bindir')
+ 
+@@ -2813,9 +2816,9 @@ cdata.set_quoted('DLSUFFIX', dlsuffix)
+ 
+ # built later than the rest of the version metadata, we need SIZEOF_VOID_P
+ cdata.set_quoted('PG_VERSION_STR',
+-  'PostgreSQL @0@ on @1@-@2@, compiled by @3@-@4@, @5@-bit'.format(
++  'PostgreSQL @0@ (IvorySQL @6@) on @1@-@2@, compiled by @3@-@4@, @5@-bit'.format(
+     pg_version, host_machine.cpu_family(), host_system,
+-    cc.get_id(), cc.version(), cdata.get('SIZEOF_VOID_P') * 8,
++    cc.get_id(), cc.version(), cdata.get('SIZEOF_VOID_P') * 8, cdata.get('PACKAGE_IVORYSQL_VERSION')
+   )
+ )
+ 
+diff --git a/src/fe_utils/meson.build b/src/fe_utils/meson.build
+index 24bc7c9cde1..813a4766abc 100644
+--- a/src/fe_utils/meson.build
++++ b/src/fe_utils/meson.build
+@@ -31,6 +31,7 @@ ora_parser_kwlist = custom_target('ora_kwlist',
+       '--extern', '--output', '@OUTDIR@', '@INPUT@'])
+ generated_sources += ora_parser_kwlist
+ fe_utils_sources += ora_parser_kwlist
++ora_inc = include_directories('.')
+ 
+ psqlscan = custom_target('psqlscan',
+   input: 'psqlscan.l',
+@@ -43,7 +44,7 @@ fe_utils_sources += psqlscan
+ fe_utils = static_library('libpgfeutils',
+   fe_utils_sources + generated_headers,
+   c_pch: pch_postgres_fe_h,
+-  include_directories: [postgres_inc, libpq_inc],
++  include_directories: [postgres_inc, libpq_inc, ora_inc],
+   c_args: host_system == 'windows' ? ['-DFD_SETSIZE=1024'] : [],
+   dependencies: frontend_common_code,
+   kwargs: default_lib_args,
