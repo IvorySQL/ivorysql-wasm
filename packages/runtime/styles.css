@@ -57,7 +57,7 @@ input[type="button"] {
 .xterminal {
   position: relative;
   padding: 16px;
-  width: calc(80ch + 16px * 2);
+  width: calc(120ch + 16px * 2);
   height: 100%;
   background: black;
   border-radius: 7px;
