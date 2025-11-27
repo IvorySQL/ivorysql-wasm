@@ -1,0 +1,1 @@
+zstd --ultra -22 state/v86state.bin && rm state/v86state.bin
