@@ -25,7 +25,7 @@
 1. Go the `http://localhost:3000?boot=true`
 
 2. Once the boot is completed, clear the cache and start psql (the runtime assumes psql is running when it loads a snapshot):
- `echo 3 > /proc/sys/vm/drop_caches && echo 3 > /proc/sys/kernel/printk && reset && psql -U postgres`
+ `echo 3 > /proc/sys/vm/drop_caches && echo 3 > /proc/sys/kernel/printk && reset && psql -U postgres -d ivorysql -p 1521`
 
 3. Save the state to a file clicking the `Save state to file` button
 
