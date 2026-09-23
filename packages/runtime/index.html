@@ -121,9 +121,9 @@
       document.getElementById("restore_file").onchange = function () {
         if (this.files.length) {
           var filereader = new FileReader();
-          emulator.stop();
 
           filereader.onload = async function (e) {
+            await emulator.stop();
             await emulator.restore_state(e.target.result);
             emulator.run();
           };

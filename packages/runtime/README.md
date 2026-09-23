@@ -8,6 +8,12 @@
 1. Run `npx serve` and go to `http://localhost:3000`
 2. There is no step 2
 
+### Runtime lifecycle tests
+
+Run `node --test tests/restore-file.test.cjs` from this directory. The tests use
+the bundled v86 lifecycle methods with a controlled CPU; they do not boot a
+guest image.
+
 ## :hammer_and_wrench: Update the filesystem
 
 1. Run the build process in the [buildroot](/packages/buildroot/README.md#getting-started) package
