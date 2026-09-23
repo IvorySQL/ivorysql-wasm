@@ -142,12 +142,12 @@
           var reader = new FileReader();
           reader.onload = (function (file) {
             return function (e) {
-              var data = new TextEncoder("UTF-8").encode(e.target.result);
+              var data = new Uint8Array(e.target.result);
               emulator.create_file("/" + file.name, data);
               console.log("uploaded " + file.name);
             };
           })(files[i]);
-          reader.readAsText(files[i]);
+          reader.readAsArrayBuffer(files[i]);
         }
       };
 

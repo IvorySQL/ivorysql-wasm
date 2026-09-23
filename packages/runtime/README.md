@@ -37,3 +37,15 @@ zstd --ultra -22 state/v86state.bin && rm state/v86state.bin
 
 5. Go to `http://localhost:3000`, instant boot!
 
+## Tests
+
+From `packages/runtime`, run the upload regression tests with Node.js 18 or newer:
+
+```bash
+node --test tests/upload-files.test.cjs
+```
+
+These tests exercise the page's upload handler and check the bytes passed to the
+emulator. They use Node's Blob API for file reads and a recording emulator stub;
+they do not boot a VM or run a database restore.
+
