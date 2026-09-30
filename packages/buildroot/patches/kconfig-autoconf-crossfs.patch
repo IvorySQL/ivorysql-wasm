@@ -1,0 +1,57 @@
+--- a/support/kconfig/confdata.c
++++ b/support/kconfig/confdata.c
+@@ -992,19 +992,26 @@
+ 	if (conf_split_config())
+ 		return 1;
+ 
+-	sprintf(buf, "%s.tmpconfig", dir);
++	name = conf_get_autoconfig_name();
++	sprintf(buf, "%s.tmp", name);
+ 	out = fopen(buf, "w");
+ 	if (!out)
+ 		return 1;
+ 
+-	sprintf(buf, "%s.tmpconfig_tristate", dir);
++	name = getenv("KCONFIG_TRISTATE");
++	if (!name)
++		name = "include/config/tristate.conf";
++	sprintf(buf, "%s.tmp", name);
+ 	tristate = fopen(buf, "w");
+ 	if (!tristate) {
+ 		fclose(out);
+ 		return 1;
+ 	}
+ 
+-	sprintf(buf, "%s.tmpconfig.h", dir);
++	name = getenv("KCONFIG_AUTOHEADER");
++	if (!name)
++		name = "include/generated/autoconf.h";
++	sprintf(buf, "%s.tmp", name);
+ 	out_h = fopen(buf, "w");
+ 	if (!out_h) {
+ 		fclose(out);
+@@ -1037,13 +1044,13 @@
+ 	name = getenv("KCONFIG_AUTOHEADER");
+ 	if (!name)
+ 		name = "include/generated/autoconf.h";
+-	sprintf(buf, "%s.tmpconfig.h", dir);
++	sprintf(buf, "%s.tmp", name);
+ 	if (rename(buf, name))
+ 		return 1;
+ 	name = getenv("KCONFIG_TRISTATE");
+ 	if (!name)
+ 		name = "include/config/tristate.conf";
+-	sprintf(buf, "%s.tmpconfig_tristate", dir);
++	sprintf(buf, "%s.tmp", name);
+ 	if (rename(buf, name))
+ 		return 1;
+ 	name = conf_get_autoconfig_name();
+@@ -1051,7 +1058,7 @@
+ 	 * This must be the last step, kbuild has a dependency on auto.conf
+ 	 * and this marks the successful completion of the previous steps.
+ 	 */
+-	sprintf(buf, "%s.tmpconfig", dir);
++	sprintf(buf, "%s.tmp", name);
+ 	if (rename(buf, name))
+ 		return 1;
+ 
