@@ -8,6 +8,7 @@
 import argparse
 import json
 import os
+import posixpath
 import stat
 import sys
 import itertools
@@ -79,7 +80,7 @@ def main():
         tar = None
 
     if tar:
-        (root, total_size) = handle_tar(logger, tar)
+        (root, total_size) = handle_tar(logger, tar, args.exclude)
     else:
         (root, total_size) = handle_dir(logger, path, args.exclude)
 
@@ -212,12 +213,19 @@ def handle_dir(logger, path, exclude):
 
     return (mainroot, total_size)
 
-def handle_tar(logger, tar):
+def handle_tar(logger, tar, exclude=None):
     mainroot = []
     filename_to_hash = {}
     total_size = 0
 
+    exclude = {posixpath.normpath("/" + p.lstrip("/")) for p in (exclude or [])}
+
     for member in tar.getmembers():
+        member_path = posixpath.normpath("/" + member.name.lstrip("/"))
+        if any(member_path == p or member_path.startswith(p.rstrip("/") + "/")
+               for p in exclude):
+            continue
+
         parts = member.name.split("/")
         name = parts.pop()
 
