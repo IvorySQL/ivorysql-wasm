@@ -13,5 +13,5 @@ rm -rf "$root/filesystem"
 cp -R "$root/../buildroot/build/filesystem" "$root"
 
 # Replace the bzimage url in the index.html based on the filesystem/filesystem.json file
-bzimage_bin_file=$(grep -oP '\"bzImage\"[,\d]+\"\K\w+\.bin' "$root/filesystem/filesystem.json")
+bzimage_bin_file=$(jq -r '.fsroot | map(select(.[0] == "bzImage"))[0][6]' "$root/filesystem/filesystem.json")
 sed -i -E "s/const[[:space:]]+bzimageUrl[[:space:]]*=[[:space:]]*\"\.\/filesystem\/(.*)\"/const bzimageUrl = \"\.\/filesystem\/$bzimage_bin_file\"/" "$root/index.html"
