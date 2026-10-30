@@ -6,6 +6,12 @@ script_dir=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 # Root of pg-browser package
 root="$script_dir/.."
 
+# Refuse to remove the current runtime when no replacement was generated.
+if [ ! -d "$root/../buildroot/build/filesystem" ]; then
+    printf 'Missing filesystem source directory: %s\n' "$root/../buildroot/build/filesystem" >&2
+    exit 1
+fi
+
 # Clean up
 rm -rf "$root/filesystem"
 
