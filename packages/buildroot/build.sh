@@ -1,7 +1,7 @@
 export IVORYSQL_VERSION=5.6
 sed -i "s/const version = \".*\"/const version = \"$IVORYSQL_VERSION\"/g" ../runtime/index.html
 #add for ivorysql version
-docker build --build-arg IVORYSQL_VERSION=$IVORYSQL_VERSION -t buildroot .
+docker build --build-arg IVORYSQL_VERSION=$IVORYSQL_VERSION -t buildroot . || exit "$?"
 
 docker run \
     --rm \
